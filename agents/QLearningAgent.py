@@ -11,7 +11,7 @@ class QLearningAgent(Agent):
 	# These values may need some tuning.
 	def __init__(self):
 		self.alpha = 0.1
-		self.gamma = 0.9
+		self.gamma = 0.98
 		self.epsilon = 0.0
 		self.q_values = dict()
 		self.q_visits = dict()
