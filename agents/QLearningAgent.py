@@ -4,7 +4,7 @@ import random
 
 min_epsilon = 0.01
 max_epsilon = 1.0
-epsilon_decay = 500
+epsilon_decay = 250
 
 # An agent that learns the Q function and determines the best action with it.
 class QLearningAgent(Agent):
@@ -13,7 +13,6 @@ class QLearningAgent(Agent):
 		self.alpha = 0.1
 		self.gamma = 0.9
 		self.epsilon = 0.0
-		self.episode = 0
 		self.q_values = dict()
 		self.q_visits = dict()
 
@@ -21,8 +20,8 @@ class QLearningAgent(Agent):
 		board = game.board[0:6] + game.board[7:13]
 		return "".join([chr(b + 48) for b in board])
 
-	def compute_epsilon(self):
-		self.epsilon = min_epsilon + (max_epsilon - min_epsilon) * math.exp(-1. * self.episode / epsilon_decay)
+	def compute_epsilon(self, episode):
+		self.epsilon = min_epsilon + (max_epsilon - min_epsilon) * math.exp(-1. * episode / epsilon_decay)
 
 	def learn(self, current_game, action, next_game):
 		encoded_current = self.encode(current_game)
