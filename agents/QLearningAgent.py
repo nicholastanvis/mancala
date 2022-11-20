@@ -11,8 +11,8 @@ epsilon_decay = max_episodes / 4
 class QLearningAgent(Agent):
 	# These values may need some tuning.
 	def __init__(self):
-		self.alpha = 0.1
-		self.gamma = 0.98
+		self.alpha = 1.0
+		self.gamma = 0.90
 		self.epsilon = 0.0
 		self.q_values = dict()
 		self.q_visits = dict()
@@ -30,17 +30,18 @@ class QLearningAgent(Agent):
 
 		if encoded_current not in self.q_values:
 			self.q_values[encoded_current] = [0] * 6
-			self.q_visits[encoded_current] = 0
+			self.q_visits[encoded_current] = 1
 
 		if encoded_next not in self.q_values:
 			self.q_values[encoded_next] = [0] * 6
-			self.q_visits[encoded_next] = 0
+			self.q_visits[encoded_next] = 1
 
 		reward = next_game.score('x') - current_game.score('x')
 		q_current = self.q_values[encoded_current][action]
 		max_q_next = max(self.q_values[encoded_next])
 
-		self.q_values[encoded_current][action] = q_current + self.alpha * (reward + self.gamma * max_q_next - q_current)
+		self.q_values[encoded_current][action] = q_current + (self.alpha / self.q_visits[encoded_current]) * (reward + self.gamma * max_q_next - q_current)
+		self.q_visits[encoded_current] += 1
 
 	def policy(self, game):
 		max_q = float("-inf")
