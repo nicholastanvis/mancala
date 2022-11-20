@@ -32,7 +32,8 @@ class Gym():
 					action = self.agent_y.policy(game)
 					self.game = game.action(action)
 			
-			total_score += game.score('x') - game.score('y')
+			score = game.score('x') - game.score('y')
+			total_score += score
 			if (episode + 1) % episode_interval == 0 and not self.silent:
 				print(f'Episode {episode + 1} | Epsilon: {str(round(self.agent_x.epsilon, 3))} | Average Score: {total_score / episode_interval}')
 				total_score = 0

@@ -2,9 +2,10 @@ from .Agent import Agent
 import math
 import random
 
+max_episodes = 1000
 min_epsilon = 0.01
 max_epsilon = 1.0
-epsilon_decay = 250
+epsilon_decay = max_episodes / 4
 
 # An agent that learns the Q function and determines the best action with it.
 class QLearningAgent(Agent):
